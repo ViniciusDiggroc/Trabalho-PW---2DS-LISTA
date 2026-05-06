@@ -1,15 +1,18 @@
-﻿📚 Trabalho PW — Lista
-👥 Integrantes
-Nome Completo 1
-Nome Completo 2
-Nome Completo 3
-Nome Completo 4
+# 📚 Trabalho PW — Lista
 
-(adicione ou remova conforme seu grupo)
+## 👥 Integrantes
+- Nome Completo 1  
+- Nome Completo 2  
+- Nome Completo 3  
+- Nome Completo 4  
 
-🛠️ Ferramentas e Tecnologias Utilizadas
-🔥 Firebase
-🌐 HTML
-🎨 CSS
-⚡ JavaScript
-💡 jQuery
+*(adicione ou remova conforme seu grupo)*
+
+---
+
+## 🛠️ Ferramentas e Tecnologias Utilizadas
+- Firebase  
+- HTML  
+- CSS  
+- JavaScript  
+- jQuery  
