@@ -1,6 +1,9 @@
 const ref = db.ref("fornecedor");
 
-    $("#cnpj").mask("00.000.000/0000-00");
+let idcapturado = null;
+$("#cancelar").hide();
+
+$("#cnpj").mask("00.000.000/0000-00");
 
 $("#salvar").click(function () {
     let nome = $("#nome").val();
@@ -13,7 +16,20 @@ $("#salvar").click(function () {
         return
     }
 
-    ref.push({ nome, email, cnpj, estado });
+
+    if (idcapturado) {//editar
+        ref.child(idcapturado).update({ nome, email, cnpj, estado });
+        idcapturado = null;
+        $("#salvar").text("Salvar");
+
+        $("#cancelar").hide();
+        $("#salvar").removeClass("btn-success").addClass("btn-primary");
+        $("#status").text("");
+    } else {//salvar
+        ref.push({ nome, email, cnpj, estado });
+    }
+
+
 
     limpar();
 
@@ -22,7 +38,7 @@ $("#salvar").click(function () {
 ref.on("value", dados_tabela => {
     $("#lista").empty();
 
-  $("#lista").append(`
+    $("#lista").append(`
         <tr>
             <th>ID</th>
             <th>Nome</th>
@@ -49,9 +65,10 @@ ref.on("value", dados_tabela => {
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>
-                <td>
-                    <button class="btn btn-warning btn-sm">
-                        <i class="bi bi-pencil"></i>
+               <td>
+                    <button class="btn btn-warning btn-sm"
+                     onclick="editar('${id}','${reg.nome}','${reg.email}','${reg.cnpj}','${reg.estado}')">
+                    <i class="bi bi-pencil"></i>
                     </button>
                 </td>
             </tr>
@@ -66,11 +83,27 @@ function limpar() {
     $("#nome").val("");
     $("#email").val("");
     $("#cnpj").val(""),
-    $('input[name="estado"]').prop('checked', false);
+        $('input[name="estado"]').prop('checked', false);
     $("#nome").focus();
 
 };
 
+function editar(id, nome, email, cnpj, estado) {
+    $("#nome").val(nome);
+    $("#email").val(email);
+    $("#cnpj").val(cnpj);
+    $("#estado").val(estado);
+    idcapturado = id;
+
+    $("#cancelar").show();
+
+    $("#salvar")
+        .text("Atualizar")
+        .removeClass("btn-primary")
+        .addClass("btn-success");
+
+    $("#status").text("Editando registro...");
+}
 
 
 
