@@ -6,9 +6,14 @@ $("#cancelar").hide();
 $("#salvar").click(function () {
     let categoria = $("#categoria").val();
     let informacaos = $("#info").val();
- 
-     if (idcapturado) {//editar
-        ref.child(idcapturado).update({ categoria, informacaos });
+
+    if (categoria === "" || informacaos ===  "") {
+        alert('Preencha todos os campos');
+        return;
+    }
+
+    if (idcapturado) {//editar
+        ref.child(idcapturado).update({categoria, informacaos });
         idcapturado = null;
         $("#salvar").text("Salvar");
 
@@ -16,16 +21,15 @@ $("#salvar").click(function () {
         $("#salvar").removeClass("btn-success").addClass("btn-primary");
         $("#status"). text("");
     } else {//salvar
-        ref.push({ categoria, informacaos });
+        ref.push({categoria, informacaos });
     }
- 
- 
+
     limpar();
 });
- 
+
 ref.on("value", dados_tabela => {
     $("#lista").empty();
- 
+
     $("#lista").append(`
         <tr>
             <th>ID</th>
@@ -33,32 +37,32 @@ ref.on("value", dados_tabela => {
             <th>Informações</th>
             <th colspan="2">Opções</th>
         </tr>
-    `);
-   
+        `);
+
     dados_tabela.forEach(registro => {
         let reg = registro.val();
         let id = registro.key;
- 
+
         $("#lista").append(`
             <tr>
                 <td>${id}</td>
                 <td>${reg.categoria}</td>
                 <td>${reg.informacaos}</td>
                 <td>
-                    <button class="btn btn-danger btn-sm">
+                    <button class="btn btn-outline-danger btn-sm">
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-warning btn-sm" onclick="editar('${id}', '${reg.categoria}', '${reg.informacaos}')">
+                    <button class="btn btn-outline-warning btn-sm" onclick="editar('${id}','${reg.categoria}','${reg.informacaos}')">
                         <i class="bi bi-pencil"></i>
                     </button>
                 </td>
             </tr>
-        `);
+            `);
     });
 });
- 
+
 function limpar() {
     $("#categoria").val("");
     $("#info").val("");
